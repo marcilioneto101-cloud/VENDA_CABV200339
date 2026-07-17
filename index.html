@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Estudo de Mercado — Alto da Boa Vista, QD 200 CJ 3 LT 39</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Montserrat:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#faf8f3;
+    --paper-2:#ffffff;
+    --ink:#222221;
+    --ink-soft:#4a4944;
+    --gray:#7a808c;
+    --orange:#ff6b00;
+    --orange-deep:#d95700;
+    --line:#e4ded0;
+    --line-strong:#d7cfbb;
+    --dark:#1b1b18;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:'Montserrat',sans-serif; font-weight:400; line-height:1.65;
+    overflow-x:hidden;
+  }
+  ::selection{background:var(--orange); color:#fff;}
+  .disp{font-family:'Bebas Neue',sans-serif; font-weight:400; letter-spacing:.01em;}
+
+  #progress{position:fixed; top:0; left:0; height:3px; background:var(--orange); z-index:999; width:0%; transition:width .12s linear;}
+
+  header.topbar{
+    position:fixed; top:0; left:0; right:0; z-index:60;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 40px; backdrop-filter:blur(10px);
+    background:rgba(250,248,243,0.9); border-bottom:1px solid var(--line);
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand .mono{font-family:'Montserrat',sans-serif; font-weight:800; font-size:1.25rem; letter-spacing:-.02em; color:var(--ink);}
+  .brand .mono span{color:var(--orange);}
+  .brand .sub{font-size:.6rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gray); border-left:1px solid var(--line-strong); padding-left:10px; margin-left:2px;}
+  .topbar-right{display:flex; align-items:center; gap:22px;}
+  .topbar-right .prop{font-size:.66rem; letter-spacing:.08em; color:var(--gray); text-transform:uppercase;}
+  #menuToggle{display:none; flex-direction:column; gap:5px; cursor:pointer; background:none; border:none;}
+  #menuToggle span{width:22px; height:2px; background:var(--ink);}
+
+  nav.sidenav{
+    position:fixed; top:0; right:0; height:100vh; width:290px; z-index:80;
+    background:var(--paper-2); border-left:1px solid var(--line);
+    padding:100px 34px 40px; transform:translateX(100%);
+    transition:transform .5s cubic-bezier(.7,0,.2,1); overflow-y:auto;
+    box-shadow:-8px 0 30px rgba(0,0,0,0.06);
+  }
+  nav.sidenav.open{transform:translateX(0);}
+  nav.sidenav .navlabel{font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gray); margin-bottom:20px;}
+  nav.sidenav ol{list-style:none; counter-reset:navsec;}
+  nav.sidenav li{counter-increment:navsec; margin-bottom:2px;}
+  nav.sidenav a{
+    display:flex; align-items:baseline; gap:12px; text-decoration:none; color:var(--ink-soft);
+    padding:10px 4px; font-size:.86rem; letter-spacing:.01em; border-bottom:1px solid transparent;
+    transition:color .2s ease, padding-left .2s ease;
+  }
+  nav.sidenav a::before{content:counter(navsec,decimal-leading-zero); font-family:'Bebas Neue'; font-size:.85rem; color:var(--orange); opacity:.6;}
+  nav.sidenav a:hover, nav.sidenav a.active{color:var(--ink); padding-left:8px;}
+  nav.sidenav a.active{border-bottom-color:var(--orange); font-weight:600;}
+  #navScrim{position:fixed; inset:0; background:rgba(20,20,15,.35); z-index:70; opacity:0; pointer-events:none; transition:opacity .4s ease;}
+  #navScrim.show{opacity:1; pointer-events:auto;}
+
+  .rail{position:fixed; right:26px; top:50%; transform:translateY(-50%); z-index:55; display:flex; flex-direction:column; gap:15px;}
+  .rail button{width:8px; height:8px; border-radius:50%; border:1.5px solid var(--orange); background:transparent; cursor:pointer; padding:0; position:relative;}
+  .rail button.active{background:var(--orange);}
+  .rail button .tip{position:absolute; right:20px; top:50%; transform:translateY(-50%); white-space:nowrap; font-size:.68rem; letter-spacing:.04em; color:var(--ink-soft); background:var(--paper-2); padding:4px 10px; border:1px solid var(--line); opacity:0; pointer-events:none; transition:opacity .2s ease;}
+  .rail button:hover .tip{opacity:1;}
+  @media (max-width: 980px){ .rail{display:none;} #menuToggle{display:flex;} }
+
+  main{position:relative;}
+  section{min-height:100vh; padding:150px 9vw 110px; position:relative; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--line);}
+  .kicker{font-size:.68rem; letter-spacing:.28em; text-transform:uppercase; color:var(--orange); margin-bottom:16px; display:flex; align-items:center; gap:14px; font-weight:700;}
+  .kicker::before{content:''; width:32px; height:2px; background:var(--orange);}
+  h2{font-family:'Bebas Neue',sans-serif; font-weight:400; text-transform:uppercase; font-size:clamp(2.4rem,5vw,4.2rem); line-height:.98; margin-bottom:26px; max-width:18ch; color:var(--ink); letter-spacing:.005em;}
+  h2 .accent{color:var(--orange);}
+  h3{font-family:'Bebas Neue'; font-weight:400; text-transform:uppercase; letter-spacing:.01em; color:var(--ink); font-size:1.3rem;}
+  p.lead{font-size:1.03rem; color:var(--ink-soft); max-width:64ch; margin-bottom:16px;}
+
+  .reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1);}
+  .reveal.in{opacity:1; transform:translateY(0);}
+  .reveal.d1{transition-delay:.08s;} .reveal.d2{transition-delay:.16s;} .reveal.d3{transition-delay:.24s;} .reveal.d4{transition-delay:.32s;}
+
+  #hero{min-height:100vh; padding-top:120px; align-items:flex-start; background:var(--paper);}
+  #hero .heroTop{display:flex; justify-content:space-between; align-items:flex-start; width:100%; flex-wrap:wrap; gap:36px;}
+  #hero h1{font-family:'Bebas Neue'; font-weight:400; text-transform:uppercase; font-size:clamp(2.8rem,7vw,5.6rem); line-height:.94; max-width:16ch; letter-spacing:.005em;}
+  #hero h1 .thin{font-family:'Montserrat'; font-weight:400; font-style:italic; color:var(--gray); display:block; font-size:.32em; letter-spacing:.01em; margin-top:16px; text-transform:none;}
+  .heroMeta{display:flex; flex-direction:column; gap:10px; font-size:.8rem; color:var(--gray); text-align:right; min-width:230px;}
+  .heroMeta strong{color:var(--ink); font-weight:600;}
+  .heroStats{display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:76px; width:100%;}
+  .heroStats div{background:var(--paper-2); padding:24px 22px;}
+  .heroStats .num{font-family:'Bebas Neue'; font-size:2rem; color:var(--orange); display:block; letter-spacing:.01em;}
+  .heroStats .lbl{font-size:.66rem; letter-spacing:.07em; text-transform:uppercase; color:var(--gray); margin-top:6px; display:block;}
+  .scrollcue{position:absolute; bottom:34px; left:9vw; display:flex; align-items:center; gap:12px; font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gray);}
+  .scrollcue .line{width:1px; height:32px; background:linear-gradient(var(--orange),transparent); animation:pulse 2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:.25;} 50%{opacity:1;}}
+
+  .gallery{display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-top:34px;}
+  .gallery figure{aspect-ratio:3/4; background:var(--line); border:1px solid var(--line-strong); overflow:hidden; position:relative;}
+  .gallery img{width:100%; height:100%; object-fit:cover; display:block; transition:transform .5s ease;}
+  .gallery figure:hover img{transform:scale(1.05);}
+  .gallery figcaption{position:absolute; bottom:0; left:0; right:0; padding:9px 11px; font-size:.62rem; letter-spacing:.1em; text-transform:uppercase; color:#fff; background:linear-gradient(transparent,rgba(20,20,15,.62)); font-weight:600;}
+  @media (max-width:820px){.gallery{grid-template-columns:repeat(2,1fr);}}
+
+  .twocol{display:grid; grid-template-columns:1.1fr 0.9fr; gap:64px; align-items:start;}
+  @media (max-width:980px){.twocol{grid-template-columns:1fr; gap:34px;}}
+
+  ul.feat{list-style:none; display:flex; flex-direction:column; gap:12px;}
+  ul.feat li{display:flex; gap:12px; align-items:flex-start; font-size:.94rem; color:var(--ink-soft);}
+  ul.feat li::before{content:'—'; color:var(--orange); flex-shrink:0; font-weight:700;}
+  ul.feat li strong{color:var(--ink);}
+
+  .badgebar{display:flex; flex-wrap:wrap; gap:9px; margin-top:22px;}
+  .badge{border:1.5px solid var(--line-strong); padding:6px 14px; font-size:.66rem; letter-spacing:.06em; text-transform:uppercase; color:var(--ink-soft); border-radius:20px; font-weight:600; background:var(--paper-2);}
+  .badge.on{border-color:var(--orange); color:var(--orange-deep); background:#fff3e8;}
+
+  .chartcard{border:1px solid var(--line); background:var(--paper-2); padding:28px; position:relative; box-shadow:0 2px 12px rgba(34,34,33,0.04);}
+  .chartcard .chead{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:6px; flex-wrap:wrap; gap:8px;}
+  .chartcard h3{font-size:1.05rem;}
+  .chartcard .csrc{font-size:.62rem; letter-spacing:.06em; text-transform:uppercase; color:var(--gray);}
+  .legendrow{display:flex; gap:18px; margin-top:6px; flex-wrap:wrap;}
+  .legendrow span{display:flex; align-items:center; gap:7px; font-size:.7rem; color:var(--ink-soft); font-weight:600;}
+  .legendrow .sw{width:16px; height:3px; border-radius:2px;}
+  .tooltip{position:absolute; pointer-events:none; background:var(--dark); border:1px solid var(--orange); padding:8px 12px; font-size:.72rem; color:#fff; opacity:0; transition:opacity .15s ease; transform:translate(-50%,-115%); white-space:nowrap; z-index:10;}
+  .tooltip strong{color:#ffb26b;}
+
+  .callout{border-left:3px solid var(--orange); background:#fff3e8; padding:20px 24px; margin:22px 0; font-size:.94rem; color:var(--ink); max-width:64ch;}
+  .callout strong{color:var(--orange-deep);}
+  .warnbox{border:1.5px solid #e0a05a; background:#fff8ef; padding:20px 24px; margin:22px 0; max-width:64ch;}
+  .warnbox .wtitle{font-size:.66rem; letter-spacing:.14em; text-transform:uppercase; color:#b8622a; font-weight:800; margin-bottom:8px;}
+  .warnbox p{font-size:.9rem; color:var(--ink-soft);}
+
+  .tablewrap{overflow-x:auto; border:1px solid var(--line); background:var(--paper-2);}
+  table{width:100%; border-collapse:collapse; font-size:.85rem; min-width:760px;}
+  thead th{text-align:left; padding:13px 16px; background:var(--dark); color:#f2ede0; font-size:.62rem; letter-spacing:.09em; text-transform:uppercase; font-weight:700; position:sticky; top:0;}
+  tbody td{padding:12px 16px; border-bottom:1px solid var(--line); color:var(--ink-soft); white-space:nowrap;}
+  tbody tr:nth-child(even){background:#f4f1e9;}
+  tbody tr:hover{background:#fff3e8;}
+  tbody tr.subject{background:#ffe4c7 !important; outline:2px solid var(--orange); outline-offset:-2px;}
+  tbody tr.subject td{color:var(--orange-deep); font-weight:800;}
+  .difftag{display:inline-block; font-size:.6rem; padding:2px 8px; border:1px solid var(--orange); color:var(--orange-deep); border-radius:10px; margin-right:4px; font-weight:700;}
+
+  .flow{display:flex; flex-direction:column; gap:0; margin-top:8px;}
+  .flowstep{display:grid; grid-template-columns:80px 1fr auto; gap:22px; align-items:center; padding:24px 0; border-bottom:1px solid var(--line);}
+  .flowstep:last-child{border-bottom:none;}
+  .flowstep .fnum{font-family:'Bebas Neue'; font-size:2.1rem; color:var(--line-strong);}
+  .flowstep.hi .fnum{color:var(--orange);}
+  .flowstep .ftitle{font-size:.66rem; letter-spacing:.12em; text-transform:uppercase; color:var(--gray); margin-bottom:5px; font-weight:700;}
+  .flowstep .fdesc{font-size:.9rem; color:var(--ink-soft); max-width:44ch;}
+  .flowstep .fval{font-family:'Bebas Neue'; font-size:1.6rem; color:var(--ink); text-align:right; white-space:nowrap;}
+  .flowstep.hi .fval{color:var(--orange-deep); font-size:1.9rem;}
+  .flowstep .frange{font-size:.68rem; color:var(--gray); text-align:right; margin-top:4px;}
+
+  .pull{border-left:3px solid var(--orange); padding-left:26px; margin:30px 0; font-family:'Bebas Neue'; font-size:1.5rem; text-transform:uppercase; color:var(--ink); max-width:52ch; line-height:1.25; letter-spacing:.005em;}
+
+  #passos{background:var(--paper-2); color:var(--ink); border-bottom:none;}
+  #passos .kicker{color:var(--orange);}
+  .passosGrid{display:grid; grid-template-columns:1.05fr 0.95fr; gap:64px; margin-top:64px; align-items:start;}
+  @media (max-width:980px){.passosGrid{grid-template-columns:1fr; gap:44px;}}
+  .passoItem{padding:24px 0; border-top:2px solid var(--ink);}
+  .passoItem h3{font-size:1.25rem; margin-bottom:9px;}
+  .passoItem p{font-size:.9rem; color:var(--ink-soft); max-width:52ch;}
+  .passoItem .pnum{font-size:.64rem; letter-spacing:.18em; color:var(--orange); margin-bottom:7px; display:block; font-weight:700;}
+
+  .divulgaBox{background:var(--dark); color:#fff; padding:56px 40px; display:flex; flex-direction:column; justify-content:center; position:relative; overflow:hidden; min-height:320px;}
+  .divulgaBox::after{content:''; position:absolute; inset:0; opacity:.06; background-image:repeating-linear-gradient(115deg, var(--orange) 0px, var(--orange) 1px, transparent 1px, transparent 40px);}
+  .divulgaBox .dk{font-size:.64rem; letter-spacing:.22em; text-transform:uppercase; color:var(--orange); margin-bottom:16px; position:relative; font-weight:700;}
+  .divulgaBox h3{font-family:'Bebas Neue'; font-size:clamp(1.9rem,3.6vw,2.6rem); line-height:1.02; color:#fff; position:relative;}
+  .divulgaBox p{font-size:.88rem; color:#c9c4b6; margin-top:18px; max-width:38ch; position:relative;}
+  .divulgaBox .arrow{margin-top:26px; width:44px; height:44px; border:1.5px solid var(--orange); border-radius:50%; display:flex; align-items:center; justify-content:center; position:relative; color:var(--orange);}
+
+  footer{background:var(--dark); color:#c9c4b6; padding:32px 9vw; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px; font-size:.72rem; letter-spacing:.05em;}
+  footer .fmark{font-family:'Bebas Neue'; font-size:1.1rem; color:#fff; letter-spacing:.02em;}
+  footer .fmark span{color:var(--orange);}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="mono">MONI<span>·</span></span>
+    <span class="sub">Netimóveis — Estudo de Mercado</span>
+  </div>
+  <div class="topbar-right">
+    <span class="prop">Alto da Boa Vista · QD 200 CJ 3 LT 39</span>
+    <button id="menuToggle" aria-label="menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div id="navScrim"></div>
+<nav class="sidenav" id="sidenav">
+  <div class="navlabel">Navegar pelo estudo</div>
+  <ol id="navlist">
+    <li><a href="#hero" data-i="0">Abertura</a></li>
+    <li><a href="#sobre" data-i="1">Sobre</a></li>
+    <li><a href="#contexto" data-i="2">Contexto</a></li>
+    <li><a href="#imovel" data-i="3">O imóvel</a></li>
+    <li><a href="#bairro" data-i="4">Bairro</a></li>
+    <li><a href="#evolucao" data-i="5">Evolução do m²</a></li>
+    <li><a href="#distribuicao" data-i="6">Distribuição</a></li>
+    <li><a href="#pares" data-i="7">Pares diretos</a></li>
+    <li><a href="#valorizacao" data-i="8">Valorização</a></li>
+    <li><a href="#preco" data-i="9">Precificação</a></li>
+    <li><a href="#conclusao" data-i="10">Conclusão</a></li>
+    <li><a href="#passos" data-i="11">Próximos passos</a></li>
+  </ol>
+</nav>
+
+<div class="rail" id="rail"></div>
+
+<main>
+
+  <!-- 00 HERO -->
+  <section id="hero">
+    <div class="heroTop reveal in">
+      <h1>Estudo de<br>Mercado<span class="thin">Casa térrea — Condomínio Alto da Boa Vista</span></h1>
+      <div class="heroMeta">
+        <span>Proprietários<br><strong>Emílio Vanderlei Ribeiro</strong><br><strong>Ana Paula da Silveira Santana Vanderlei Ribeiro</strong></span>
+        <span>Corretor responsável<br><strong>Marcílio Neto</strong> · CRECI/DF 32.202</span>
+        <span>Coleta da base<br><strong>Julho / 2026</strong></span>
+      </div>
+    </div>
+    <div class="heroStats reveal d1 in">
+      <div><span class="num">216,84 m²</span><span class="lbl">Área construída</span></div>
+      <div><span class="num">504 m²</span><span class="lbl">Área do lote</span></div>
+      <div><span class="num">3 suítes</span><span class="lbl">Configuração</span></div>
+      <div><span class="num">247</span><span class="lbl">Casas na base do bairro</span></div>
+      <div><span class="num">53</span><span class="lbl">Pares diretos</span></div>
+    </div>
+    <div class="scrollcue"><span class="line"></span>role para explorar</div>
+  </section>
+
+  <!-- 01 SOBRE -->
+  <section id="sobre">
+    <div class="twocol">
+      <div>
+        <div class="kicker reveal in">01 — Sobre</div>
+        <h2 class="reveal d1 in">Corretor e <span class="accent">agência</span></h2>
+        <p class="lead reveal d2 in">Marcílio Neto é corretor de imóveis e economista, formado pela Universidade de Brasília, CRECI/DF 32.202. Atua há mais de 14 anos no mercado do Plano Piloto, com foco em Asa Norte e Lago Norte, através da MoniNetimóveis, integrante da rede Netimóveis em Brasília.</p>
+        <p class="lead reveal d2 in">Viveu dois anos em Dublin, experiência que aprofundou seu interesse por arquitetura e espaços urbanos — leitura que orienta a forma como cada estudo de mercado é conduzido.</p>
+      </div>
+      <div class="reveal d3 in">
+        <ul class="feat">
+          <li>Economista pela Universidade de Brasília</li>
+          <li>CRECI/DF 32.202</li>
+          <li>14+ anos de atuação no Plano Piloto</li>
+          <li>MoniNetimóveis — rede Netimóveis Brasília</li>
+          <li>@marcilioneto.imoveis</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 CONTEXTO -->
+  <section id="contexto">
+    <div class="kicker reveal in">02 — Contexto do estudo</div>
+    <h2 class="reveal d1 in">Por que este estudo <span class="accent">existe agora</span></h2>
+    <div class="twocol">
+      <div>
+        <p class="lead reveal d2 in">O imóvel avaliado é uma casa térrea no Condomínio Alto da Boa Vista, em Sobradinho. O lote tem 504,00 m², com 14,00 m de frente e 36,00 m de extensão lateral — medida padrão da maior parte das quadras residenciais do condomínio. A construção, com 216,84 m², foi averbada na matrícula em maio de 2024, a partir de Habite-se expedido em agosto de 2023.</p>
+        <p class="lead reveal d2 in">Os proprietários adquiriram o imóvel em junho de 2024. A casa foi projetada por um casal de engenheiro e arquiteta e recebeu benfeitorias posteriores — entre elas o sistema fotovoltaico, o aquecimento da piscina, a sauna e o tratamento do piso externo. A geração fotovoltaica está quitada e cobre o consumo da residência.</p>
+        <p class="lead reveal d3 in">O estudo foi solicitado para orientar o preço de anúncio: o proprietário foi transferido para São Paulo e a família passou a usar a casa apenas em fins de semana.</p>
+        <div class="callout reveal d3 in">A ficha de cadastro do GDF ainda classifica o imóvel como não edificado. A área de referência adotada aqui é a averbada em matrícula: <strong>216,84 m²</strong>.</div>
+      </div>
+      <div class="chartcard reveal d2 in">
+        <h3 style="margin-bottom:16px;">Linha do tempo do imóvel</h3>
+        <ul class="feat">
+          <li><strong>2014</strong> — Abertura da matrícula 15702, loteamento Alto da Boa Vista</li>
+          <li><strong>Ago/2023</strong> — Carta de Habite-se de Regularização nº 1287/2023</li>
+          <li><strong>Mai/2024</strong> — Averbação da construção, 216,84 m²</li>
+          <li><strong>Jun/2024</strong> — Aquisição pelos proprietários atuais</li>
+          <li><strong>Jul/2026</strong> — Coleta da base e elaboração do estudo</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 IMOVEL -->
+  <section id="imovel">
+    <div class="kicker reveal in">03 — O imóvel</div>
+    <h2 class="reveal d1 in">Uma casa térrea com <span class="accent">diferenciais raros</span></h2>
+    <div class="gallery reveal d2 in">
+      <figure><img src="fotos/fachada.jpg" alt="Fachada"><figcaption>Fachada</figcaption></figure>
+      <figure><img src="fotos/sala.jpg" alt="Sala"><figcaption>Sala</figcaption></figure>
+      <figure><img src="fotos/cozinha.jpg" alt="Cozinha"><figcaption>Cozinha</figcaption></figure>
+      <figure><img src="fotos/suite.jpg" alt="Suíte"><figcaption>Suíte</figcaption></figure>
+    </div>
+    <div class="twocol" style="margin-top:52px;">
+      <div>
+        <h3 style="margin-bottom:14px;">Parte interna</h3>
+        <ul class="feat reveal d2 in">
+          <li>3 suítes, todas com armário e cortina</li>
+          <li>Uma suíte com closet</li>
+          <li>Sala integrada à cozinha</li>
+          <li>Cozinha equipada, com armários</li>
+          <li>Lavabo</li>
+          <li>Área de serviço</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="margin-bottom:14px;">Área de lazer e características</h3>
+        <ul class="feat reveal d3 in">
+          <li>Piscina aquecida</li>
+          <li>Sauna</li>
+          <li>Sistema fotovoltaico quitado</li>
+          <li>Aquecimento solar de água</li>
+          <li>Vista desimpedida na frente do lote</li>
+        </ul>
+        <div class="badgebar reveal d4 in">
+          <span class="badge on">Piscina aquecida</span>
+          <span class="badge on">Geração solar</span>
+          <span class="badge">Sauna</span>
+          <span class="badge">Casa térrea</span>
+        </div>
+      </div>
+    </div>
+    <div class="gallery reveal d3 in" style="margin-top:24px; grid-template-columns:repeat(3,1fr);">
+      <figure><img src="fotos/banheiro.jpg" alt="Banheiro"><figcaption>Banheiro</figcaption></figure>
+      <figure><img src="fotos/piscina.jpg" alt="Piscina"><figcaption>Piscina aquecida</figcaption></figure>
+      <figure><img src="fotos/area_externa.jpg" alt="Área externa"><figcaption>Área externa</figcaption></figure>
+    </div>
+    <div class="chartcard reveal d3 in" style="margin-top:40px;">
+      <h3 style="margin-bottom:12px;">Dados registrais</h3>
+      <ul class="feat">
+        <li>Matrícula nº 15702 — 7º Ofício de Registro de Imóveis do Distrito Federal</li>
+        <li>Área do terreno: 504,00 m² (14,00 × 36,00 m)</li>
+        <li>Área construída averbada: 216,84 m² (Av.7 da matrícula)</li>
+        <li>Habite-se de Regularização nº 1287/2023, de 24/08/2023</li>
+        <li>Inscrição do IPTU: 52440737</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 04 BAIRRO -->
+  <section id="bairro">
+    <div class="kicker reveal in">04 — Bairro</div>
+    <h2 class="reveal d1 in">Condomínio Alto da Boa Vista, <span class="accent">Sobradinho</span></h2>
+    <div class="twocol">
+      <div>
+        <p class="lead reveal d2 in">O condomínio fica às margens da BR-020, no km 12,5, a cerca de 12 km do Plano Piloto. Reúne mais de 2.600 condôminos e oferece portaria com controle de acesso e segurança 24 horas, rondas motorizadas, circuito interno de segurança e cercamento em gradil. As ruas são pavimentadas com blocos intertravados de concreto produzidos no próprio condomínio.</p>
+        <p class="lead reveal d3 in">A infraestrutura de convivência inclui área de lazer, campo de futebol, quadra poliesportiva, playground, salão de festas e comércio próprio dentro do perímetro. A regularização fundiária permitiu escrituração individual dos lotes, o que amplia o público comprador e sustenta a liquidez do condomínio.</p>
+        <div class="warnbox reveal d3 in">
+          <div class="wtitle">Ponto de atenção — localização do lote</div>
+          <p>O lote está de frente para uma área ainda não construída dentro do condomínio. Isso garante vista aberta e mais luz, mas também é um ponto sensível para parte dos compradores: a ausência de casas do outro lado da rua reduz a sensação de movimento e vizinhança, o que pode ser lido como um fator de atenção quanto à percepção de segurança noturna. Vale abordar esse ponto de forma transparente na negociação.</p>
+        </div>
+      </div>
+      <div class="chartcard reveal d2 in">
+        <h3 style="margin-bottom:16px;">Perfil do condomínio</h3>
+        <ul class="feat">
+          <li>~12 km do Plano Piloto, às margens da BR-020</li>
+          <li>Mais de 2.600 condôminos</li>
+          <li>Portaria 24h, rondas motorizadas, circuito de segurança</li>
+          <li>Padrão predominante: casas térreas de alto padrão em lotes de 504 m²</li>
+          <li>Lotes escriturados, aceitam financiamento</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 EVOLUCAO -->
+  <section id="evolucao">
+    <div class="kicker reveal in">05 — Evolução do m²</div>
+    <h2 class="reveal d1 in">24 meses de preço por metro <span class="accent">quadrado</span></h2>
+    <p class="lead reveal d2 in">A série cobre julho de 2024 a junho de 2026. O período abriu em R$ 5.889/m² e fechou em R$ 5.697/m², recuo acumulado de 3,3%. A média móvel de 5 períodos (linha tracejada) suaviza a série mensal e confirma a trajetória: queda gradual até início de 2026, com sinal de retomada nos dois últimos meses.</p>
+    <div class="chartcard reveal d3 in" style="margin-top:18px;">
+      <div class="chead">
+        <h3>Evolução de preço por m² — Condomínio Alto da Boa Vista</h3>
+        <span class="csrc">Fonte: Evolução de Mercado 2.0 · painel DFimóveis</span>
+      </div>
+      <div class="legendrow">
+        <span><i class="sw" style="background:var(--orange);"></i>Série mensal</span>
+        <span><i class="sw" style="background:var(--ink); background-image:repeating-linear-gradient(90deg,var(--ink) 0 4px,transparent 4px 8px);"></i>Média móvel (5 períodos)</span>
+      </div>
+      <div id="chartEvolucao" style="position:relative; margin-top:14px;"></div>
+    </div>
+  </section>
+
+  <!-- 06 DISTRIBUICAO -->
+  <section id="distribuicao">
+    <div class="kicker reveal in">06 — Distribuição</div>
+    <h2 class="reveal d1 in">Onde o imóvel se posiciona <span class="accent">na base</span></h2>
+    <div class="twocol">
+      <div>
+        <p class="lead reveal d2 in">A base reúne 247 casas à venda no condomínio, após remoção de duplicatas. O preço por m² tem mediana de R$ 5.960 e média de R$ 5.862 — valores próximos, distribuição equilibrada. O primeiro quartil está em R$ 4.793/m² e o terceiro em R$ 6.907/m².</p>
+        <p class="lead reveal d3 in">O recorte de pares diretos do imóvel avaliado — 3 suítes, área entre 184 e 249 m² — tem mediana de R$ 6.773/m², acima da mediana geral. O segmento do imóvel opera na metade superior do mercado local.</p>
+        <div class="chartcard reveal d3 in" style="margin-top:22px;">
+          <h3 style="margin-bottom:14px;">Absorção — tempo de anúncio</h3>
+          <p style="font-size:.84rem; color:var(--gray); margin-bottom:16px;">137 casas com até 365 dias em oferta. Mediana de 126 dias — metade das casas do condomínio encontra comprador em pouco mais de 4 meses.</p>
+          <div id="chartAbsorcao" style="position:relative;"></div>
+        </div>
+      </div>
+      <div class="chartcard reveal d2 in">
+        <div class="chead">
+          <h3>Distribuição do preço por m² — todas as casas</h3>
+          <span class="csrc">n = 247</span>
+        </div>
+        <div id="chartBoxplot" style="position:relative; margin-top:6px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 PARES -->
+  <section id="pares">
+    <div class="kicker reveal in">07 — Pares diretos</div>
+    <h2 class="reveal d1 in">Os 12 comparáveis <span class="accent">mais próximos</span></h2>
+    <p class="lead reveal d2 in">Selecionados entre os 53 pares diretos (3 suítes, 184–249 m² construídos, lote 450–560 m²) pela menor distância de área e lote em relação ao imóvel avaliado. A sauna aparece em apenas 2 dos 53 anúncios do recorte — ocorrência baixa demais para ser tratada como driver de preço; entra apenas como característica do imóvel.</p>
+    <div class="tablewrap reveal d3 in">
+      <table>
+        <thead>
+          <tr><th>Preço</th><th>Área</th><th>Lote</th><th>Config.</th><th>Dias</th><th>R$/m²</th><th>Diferenciais</th></tr>
+        </thead>
+        <tbody id="paresBody"></tbody>
+      </table>
+    </div>
+    <div class="badgebar reveal d4 in" style="margin-top:18px;">
+      <span class="badge">Mediana geral (n=53): R$ 6.773/m²</span>
+      <span class="badge on">Com piscina (n=31): R$ 7.227/m²</span>
+      <span class="badge">Sem piscina (n=22): R$ 6.320/m²</span>
+    </div>
+    <div class="warnbox reveal d4 in" style="margin-top:20px;">
+      <div class="wtitle">Concorrência direta no mesmo patamar de preço</div>
+      <p>Existe hoje no bairro uma casa nova, com fotovoltaica, 254 m², nunca habitada, anunciada por R$ 1.649.000 — praticamente a mesma faixa de preço do imóvel avaliado. Há também opções entre R$ 1.490.000 e R$ 1.550.000 descritas como "casa nova" ou "a estrear". Isso reforça a necessidade de um preço de entrada competitivo: o comprador dessa faixa tem alternativas com zero desgaste de uso.</p>
+    </div>
+  </section>
+
+  <!-- 08 VALORIZACAO -->
+  <section id="valorizacao">
+    <div class="kicker reveal in">08 — Valorização em relação à compra</div>
+    <h2 class="reveal d1 in">O que entrou e o que <span class="accent">volta</span></h2>
+    <div class="twocol">
+      <div>
+        <p class="lead reveal d2 in">O valor de referência para a aquisição é o registrado no R.8 da matrícula: R$ 1.000.000, em junho de 2024. Desde então, o proprietário estima ter investido cerca de R$ 300.000 em benfeitorias: sistema fotovoltaico, aquecimento da piscina, sauna, pintura e tratamento do piso externo.</p>
+        <p class="lead reveal d3 in">Isso projeta um custo total de referência de <strong>R$ 1.300.000</strong>. Nesse mesmo período, o índice de preço por m² do próprio condomínio recuou 3,3% — mesmo assim, o preço de anúncio proposto supera esse custo de referência.</p>
+        <div class="callout reveal d3 in">Tomando como base apenas o valor registrado em matrícula e as benfeitorias declaradas, o imóvel já sai na frente: o preço de anúncio reflete valorização sobre esse custo de referência, mesmo com o recuo do índice do bairro no período.</div>
+      </div>
+      <div class="chartcard reveal d2 in">
+        <h3 style="margin-bottom:16px;">Da compra ao preço de anúncio</h3>
+        <ul class="feat">
+          <li><strong>R$ 1.000.000</strong> — valor declarado em escritura (R.8 da matrícula, jun/2024)</li>
+          <li><strong>+ R$ 300.000</strong> — benfeitorias estimadas (solar, piscina, sauna, acabamentos)</li>
+          <li><strong>R$ 1.300.000</strong> — custo total de referência</li>
+          <li><strong>R$ 1.590.000</strong> — preço de anúncio proposto (+22,3% vs. custo de referência)</li>
+          <li><strong>R$ 1.530.000</strong> — preço de reajuste (+17,7% vs. custo de referência)</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 PRECO -->
+  <section id="preco">
+    <div class="kicker reveal in">09 — Estratégia de precificação</div>
+    <h2 class="reveal d1 in">Entrada, reajuste e <span class="accent">fechamento</span></h2>
+    <div class="flow reveal d2 in">
+      <div class="flowstep">
+        <div class="fnum">01</div>
+        <div><div class="ftitle">Ponto de partida</div><div class="fdesc">Mediana dos 53 pares diretos, sem distinção de amenidades.</div></div>
+        <div><div class="fval">R$ 6.773/m²</div><div class="frange">≈ R$ 1.469.000</div></div>
+      </div>
+      <div class="flowstep">
+        <div class="fnum">02</div>
+        <div><div class="ftitle">Filtro de piscina + solar</div><div class="fdesc">13 dos 53 pares têm piscina e geração solar simultaneamente.</div></div>
+        <div><div class="fval">R$ 6.773/m²</div><div class="frange">mediana do subgrupo, ≈ R$ 1.469.000</div></div>
+      </div>
+      <div class="flowstep hi">
+        <div class="fnum">03</div>
+        <div><div class="ftitle">Preço de anúncio (entrada)</div><div class="fdesc">Percentil 68 dos pares diretos. Reconhece piscina aquecida e geração solar sem ignorar a concorrência de casas novas na mesma faixa.</div></div>
+        <div><div class="fval">R$ 1.590.000</div><div class="frange">R$ 7.333/m²</div></div>
+      </div>
+      <div class="flowstep hi">
+        <div class="fnum">04</div>
+        <div><div class="ftitle">Reajuste programado</div><div class="fdesc">Se não houver proposta em 60 a 90 dias, ajustar para o percentil 60 dos pares diretos.</div></div>
+        <div><div class="fval">R$ 1.530.000</div><div class="frange">R$ 7.056/m²</div></div>
+      </div>
+      <div class="flowstep">
+        <div class="fnum">05</div>
+        <div><div class="ftitle">Fechamento esperado</div><div class="fdesc">Desconto de negociação entre 5% e 7% sobre o valor de reajuste, padrão do segmento.</div></div>
+        <div><div class="fval">R$ 1.423k – 1.454k</div><div class="frange">prazo estimado: 4 a 6 meses</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 CONCLUSAO -->
+  <section id="conclusao">
+    <div class="kicker reveal in">10 — Conclusão</div>
+    <h2 class="reveal d1 in">Um preço de entrada <span class="accent">realista</span></h2>
+    <p class="lead reveal d2 in">O imóvel reúne piscina aquecida e geração fotovoltaica — combinação presente em apenas 13 dos 53 pares diretos — além de sauna, característica rara mas pouco representativa estatisticamente para sustentar prêmio de preço. A configuração de 3 suítes e o recuo de 3,3% no índice do bairro em 24 meses pedem realismo, não agressividade.</p>
+    <div class="pull reveal d3 in">R$ 1.590.000 de entrada, com reajuste para R$ 1.530.000 se necessário — acima do custo de referência de matrícula e benfeitorias, e competitivo frente a casas novas na mesma faixa.</div>
+    <p class="lead reveal d3 in">O fechamento esperado entre R$ 1.423.000 e R$ 1.454.000, com prazo de quatro a seis meses, está alinhado à mediana de absorção do segmento de pares diretos e à realidade de um mercado que não deu impulso ao valor do imóvel nos últimos dois anos.</p>
+  </section>
+
+  <!-- 11 PROXIMOS PASSOS -->
+  <section id="passos">
+    <div class="kicker reveal in">11 — Encaminhamento</div>
+    <h2 class="reveal d1 in">Próximos<br>Passos</h2>
+    <div class="passosGrid">
+      <div class="reveal d2 in">
+        <div class="passoItem">
+          <span class="pnum">01 · Obrigatório por lei</span>
+          <h3>Autorização de venda</h3>
+          <p>É vedado ao corretor anunciar publicamente proposta de transação a que não esteja autorizado através de documento escrito — Art. 20, III, Lei 6.530/78.</p>
+        </div>
+        <div class="passoItem">
+          <span class="pnum">02 · Documentação</span>
+          <h3>Parecer jurídico</h3>
+          <p>Emissão de todas as certidões do proprietário: Certidão TJDFT, Certidão TRF 1 (cível e criminal), Certidão RF, Certidão GDF, Certidão TST, Certidão TRT 10 — e do imóvel: Certidão de ônus, Ficha cadastral, Certidão GDF.</p>
+        </div>
+        <div class="passoItem">
+          <span class="pnum">03 · Preparação</span>
+          <h3>Produção audiovisual</h3>
+          <p>Fotos profissionais e vídeos para as redes sociais, com o diferencial audiovisual da Moni — corretor no local, produção de conteúdo completa.</p>
+        </div>
+      </div>
+      <div class="divulgaBox reveal d3 in">
+        <span class="dk">Etapa final</span>
+        <h3>Início da<br>Divulgação</h3>
+        <p>Após autorização assinada e parecer jurídico concluído, o imóvel entra em campanha ativa nos canais Moni Netimóveis.</p>
+        <div class="arrow">→</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <span class="fmark">MONI <span>·</span> netimóveis</span>
+  <span>Marcílio Neto · CRECI/DF 32.202 · @marcilioneto.imoveis</span>
+  <span>Estudo elaborado julho / 2026</span>
+</footer>
+
+<script>
+const DATA = {"evolucao": {"datas": ["Jul/2024", "Ago/2024", "Set/2024", "Out/2024", "Nov/2024", "Dez/2024", "Jan/2025", "Fev/2025", "Mar/2025", "Abr/2025", "Mai/2025", "Jun/2025", "Jul/2025", "Ago/2025", "Set/2025", "Out/2025", "Nov/2025", "Dez/2025", "Jan/2026", "Fev/2026", "Mar/2026", "Abr/2026", "Mai/2026", "Jun/2026"], "precos": [5889, 5863, 5790, 5738, 5721, 5719, 5721, 5741, 5719, 5707, 5707, 5653, 5653, 5594, 5592, 5556, 5534, 5550, 5519, 5592, 5485, 5459, 5502, 5697], "mm5": [null, null, 5800, 5766, 5738, 5728, 5724, 5721, 5719, 5705, 5688, 5663, 5640, 5610, 5586, 5565, 5550, 5550, 5536, 5521, 5511, 5547, null, null]}, "boxplot": {"min": 2593, "q1": 4793, "mediana": 5960, "media": 5862, "q3": 6907, "max": 10000}, "absorcao": {"p25": 51, "p50": 126, "p75": 177, "bins": [1, 23, 46, 68, 90, 113, 135, 157, 180, 202, 224, 246, 269, 291, 313, 336, 358], "counts": [22, 11, 12, 8, 4, 18, 17, 12, 1, 3, 5, 4, 4, 3, 6, 7]}, "pares": [{"preco": 1380000, "area": 217.0, "lote": 504.0, "q": 3, "s": 3, "dias": 116, "m2": 6355, "diferenciais": []}, {"preco": 1480000, "area": 219.0, "lote": 504.0, "q": 3, "s": 3, "dias": 181, "m2": 6758, "diferenciais": ["Piscina", "Solar"]}, {"preco": 1490000, "area": 220.0, "lote": 504.0, "q": 3, "s": 3, "dias": 793, "m2": 6773, "diferenciais": ["Piscina", "Solar"]}, {"preco": 1490000, "area": 220.0, "lote": 504.0, "q": 4, "s": 3, "dias": 127, "m2": 6773, "diferenciais": ["Piscina", "Solar"]}, {"preco": 1590000, "area": 220.0, "lote": 504.0, "q": 3, "s": 3, "dias": 121, "m2": 7227, "diferenciais": ["Piscina"]}, {"preco": 1590000, "area": 219.0, "lote": 504.0, "q": 3, "s": 3, "dias": 126, "m2": 7260, "diferenciais": ["Piscina"]}, {"preco": 1550000, "area": 210.0, "lote": 504.0, "q": 4, "s": 3, "dias": 162, "m2": 7381, "diferenciais": ["Piscina", "Solar"]}, {"preco": 1650000, "area": 219.0, "lote": 504.0, "q": 4, "s": 3, "dias": 376, "m2": 7534, "diferenciais": ["Piscina"]}, {"preco": 1650000, "area": 219.0, "lote": 504.0, "q": 3, "s": 3, "dias": 372, "m2": 7534, "diferenciais": ["Piscina"]}, {"preco": 1699000, "area": 219.0, "lote": 504.0, "q": 4, "s": 3, "dias": 288, "m2": 7758, "diferenciais": ["Piscina"]}, {"preco": 1750000, "area": 219.0, "lote": 504.0, "q": 4, "s": 3, "dias": 500, "m2": 7991, "diferenciais": ["Piscina"]}, {"preco": 1720000, "area": 212.0, "lote": 504.0, "q": 3, "s": 3, "dias": 86, "m2": 8113, "diferenciais": ["Piscina", "Solar"]}]};
+const COLOR_ORANGE = '#ff6b00', COLOR_INK = '#222221', COLOR_GRAY = '#7a808c', COLOR_LINE = '#e4ded0';
+
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); } }); },{threshold:0.15});
+revealEls.forEach(el=>io.observe(el));
+
+window.addEventListener('scroll', ()=>{
+  const h = document.documentElement;
+  const pct = (h.scrollTop)/(h.scrollHeight-h.clientHeight)*100;
+  document.getElementById('progress').style.width = pct+'%';
+});
+
+const sidenav = document.getElementById('sidenav');
+const scrim = document.getElementById('navScrim');
+const toggle = document.getElementById('menuToggle');
+function openNav(){ sidenav.classList.add('open'); scrim.classList.add('show'); }
+function closeNav(){ sidenav.classList.remove('open'); scrim.classList.remove('show'); }
+toggle.addEventListener('click', ()=> sidenav.classList.contains('open') ? closeNav() : openNav());
+scrim.addEventListener('click', closeNav);
+document.querySelectorAll('#navlist a').forEach(a=> a.addEventListener('click', closeNav));
+
+const sections = Array.from(document.querySelectorAll('main > section'));
+const rail = document.getElementById('rail');
+const navLinks = document.querySelectorAll('#navlist a');
+sections.forEach((s,i)=>{
+  const b = document.createElement('button'); b.dataset.target = s.id;
+  const t = document.createElement('span'); t.className='tip'; t.textContent = navLinks[i] ? navLinks[i].textContent : s.id;
+  b.appendChild(t); b.addEventListener('click', ()=> s.scrollIntoView({behavior:'smooth'}));
+  rail.appendChild(b);
+});
+const railBtns = rail.querySelectorAll('button');
+const spy = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ const id = e.target.id;
+    navLinks.forEach(a=> a.classList.toggle('active', a.getAttribute('href')==='#'+id));
+    railBtns.forEach(b=> b.classList.toggle('active', b.dataset.target===id)); } });
+},{threshold:0.5});
+sections.forEach(s=>spy.observe(s));
+
+function svgEl(tag, attrs){ const el = document.createElementNS('http://www.w3.org/2000/svg', tag); for(const k in attrs) el.setAttribute(k, attrs[k]); return el; }
+function fmtR(v){ return 'R$ '+Math.round(v).toLocaleString('pt-BR'); }
+
+function drawEvolucao(){
+  const wrap = document.getElementById('chartEvolucao');
+  const W = wrap.clientWidth || 600, H = 320, pad = {t:20,r:20,b:44,l:56};
+  const svg = svgEl('svg', {width:W, height:H, viewBox:`0 0 ${W} ${H}`, style:'display:block; overflow:visible;'});
+  const precos = DATA.evolucao.precos, datas = DATA.evolucao.datas, mm5 = DATA.evolucao.mm5;
+  const min = Math.min(...precos)*0.98, max = Math.max(...precos)*1.02;
+  const x = i => pad.l + (i/(precos.length-1))*(W-pad.l-pad.r);
+  const y = v => H-pad.b - ((v-min)/(max-min))*(H-pad.t-pad.b);
+
+  for(let g=0; g<=4; g++){
+    const gv = min + (max-min)*g/4;
+    svg.appendChild(svgEl('line',{x1:pad.l,x2:W-pad.r,y1:y(gv),y2:y(gv),stroke:COLOR_LINE,"stroke-width":1,"stroke-dasharray":"2,4"}));
+    const lbl = svgEl('text',{x:pad.l-8,y:y(gv)+4,"text-anchor":"end","font-size":10,fill:COLOR_GRAY,"font-family":"Montserrat"});
+    lbl.textContent = Math.round(gv).toLocaleString('pt-BR');
+    svg.appendChild(lbl);
+  }
+  datas.forEach((d,i)=>{
+    if(i%3===0){
+      const lbl = svgEl('text',{x:x(i),y:H-pad.b+18,"text-anchor":"middle","font-size":9,fill:COLOR_GRAY,"font-family":"Montserrat"});
+      lbl.textContent = d; svg.appendChild(lbl);
+    }
+  });
+
+  let areaPath = `M${x(0)},${y(precos[0])}`;
+  precos.forEach((p,i)=> areaPath += ` L${x(i)},${y(p)}`);
+  areaPath += ` L${x(precos.length-1)},${H-pad.b} L${x(0)},${H-pad.b} Z`;
+  const defs = svgEl('defs',{});
+  const grad = svgEl('linearGradient',{id:'gradEvo', x1:0,y1:0,x2:0,y2:1});
+  grad.appendChild(svgEl('stop',{offset:'0%','stop-color':COLOR_ORANGE,'stop-opacity':0.18}));
+  grad.appendChild(svgEl('stop',{offset:'100%','stop-color':COLOR_ORANGE,'stop-opacity':0}));
+  defs.appendChild(grad); svg.appendChild(defs);
+  svg.appendChild(svgEl('path',{d:areaPath, fill:'url(#gradEvo)'}));
+
+  let linePath = `M${x(0)},${y(precos[0])}`;
+  precos.forEach((p,i)=>{ if(i>0) linePath += ` L${x(i)},${y(p)}`; });
+  svg.appendChild(svgEl('path',{d:linePath, fill:'none', stroke:COLOR_ORANGE, 'stroke-width':2.5}));
+
+  let mmPath = ''; let started = false;
+  mm5.forEach((v,i)=>{
+    if(v===null){ started=false; return; }
+    mmPath += (started ? ' L' : 'M') + x(i) + ',' + y(v);
+    started = true;
+  });
+  svg.appendChild(svgEl('path',{d:mmPath, fill:'none', stroke:COLOR_INK, 'stroke-width':2, 'stroke-dasharray':'6,4'}));
+
+  const tooltip = document.createElement('div'); tooltip.className='tooltip'; wrap.style.position='relative';
+  precos.forEach((p,i)=>{
+    const c = svgEl('circle',{cx:x(i), cy:y(p), r:3.5, fill:'#fff', stroke:COLOR_ORANGE, 'stroke-width':1.8, style:'cursor:pointer;'});
+    c.addEventListener('mouseenter', ()=>{
+      const mmTxt = mm5[i]!==null ? `<br>MM5: ${fmtR(mm5[i])}/m²` : '';
+      tooltip.innerHTML = `<strong>${datas[i]}</strong><br>${fmtR(p)}/m²${mmTxt}`;
+      tooltip.style.left = x(i)+'px'; tooltip.style.top = y(p)+'px'; tooltip.style.opacity=1;
+      c.setAttribute('r', 5.5);
+    });
+    c.addEventListener('mouseleave', ()=>{ tooltip.style.opacity=0; c.setAttribute('r',3.5); });
+    svg.appendChild(c);
+  });
+  wrap.innerHTML=''; wrap.appendChild(svg); wrap.appendChild(tooltip);
+}
+
+function resolveLabelCollisions(items, minGap){
+  items.sort((a,b)=>a.y-b.y);
+  for(let pass=0; pass<30; pass++){
+    let moved=false;
+    for(let i=1;i<items.length;i++){
+      const gap = items[i].y - items[i-1].y;
+      if(gap < minGap){
+        const push=(minGap-gap)/2;
+        items[i-1].y -= push; items[i].y += push; moved=true;
+      }
+    }
+    if(!moved) break;
+  }
+  return items;
+}
+
+function drawBoxplot(){
+  const wrap = document.getElementById('chartBoxplot');
+  const W = wrap.clientWidth || 500, H = 380, pad={t:24,r:118,b:24,l:24};
+  const b = DATA.boxplot;
+  const min = b.min*0.92, max = b.max*1.06;
+  const svg = svgEl('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`, style:'display:block; overflow:visible;'});
+  const y = v => H-pad.b - ((v-min)/(max-min))*(H-pad.t-pad.b);
+  const cx = pad.l + (W-pad.l-pad.r)/2 - 30;
+  const boxW = 64;
+
+  svg.appendChild(svgEl('line',{x1:cx,x2:cx,y1:y(b.min),y2:y(b.max), stroke:'#c9c2ae','stroke-width':1.5}));
+  [b.min,b.max].forEach(v=> svg.appendChild(svgEl('line',{x1:cx-13,x2:cx+13,y1:y(v),y2:y(v), stroke:'#c9c2ae','stroke-width':1.5})));
+  svg.appendChild(svgEl('rect',{x:cx-boxW/2, y:y(b.q3), width:boxW, height:y(b.q1)-y(b.q3), fill:COLOR_ORANGE, opacity:0.88, stroke:COLOR_INK,'stroke-width':1}));
+  svg.appendChild(svgEl('line',{x1:cx-boxW/2, x2:cx+boxW/2, y1:y(b.mediana), y2:y(b.mediana), stroke:COLOR_INK,'stroke-width':2.5}));
+  svg.appendChild(svgEl('circle',{cx:cx, cy:y(b.media), r:4.5, fill:'#fff', stroke:COLOR_INK,'stroke-width':2}));
+
+  const refs = [['Máx',b.max],['Q3',b.q3],['Média',b.media],['Mediana',b.mediana],['Q1',b.q1],['Mín',b.min]];
+  const items = refs.map(([label,val])=>({label,val,y:y(val)}));
+  resolveLabelCollisions(items, 22);
+  items.forEach(it=>{
+    svg.appendChild(svgEl('line',{x1:cx+boxW/2+6,x2:pad.l+(W-pad.l-pad.r)+2,y1:y(it.val),y2:it.y, stroke:'#c9c2ae','stroke-width':1,'stroke-dasharray':'2,3'}));
+    const hl = it.label==='Mediana'||it.label==='Média';
+    const t = svgEl('text',{x:pad.l+(W-pad.l-pad.r)+8, y:it.y+4, 'font-size':11.5, fill: hl?'#d95700':COLOR_GRAY, 'font-family':'Montserrat','font-weight': hl?700:500});
+    t.textContent = `${it.label}: ${fmtR(it.val)}`;
+    svg.appendChild(t);
+  });
+  wrap.innerHTML=''; wrap.appendChild(svg);
+}
+
+function drawAbsorcao(){
+  const wrap = document.getElementById('chartAbsorcao');
+  const W = wrap.clientWidth || 500, H = 220, pad={t:26,r:16,b:34,l:36};
+  const a = DATA.absorcao;
+  const counts = a.counts, bins = a.bins;
+  const maxC = Math.max(...counts);
+  const svg = svgEl('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`, style:'display:block; overflow:visible;'});
+  const bw = (W-pad.l-pad.r)/counts.length;
+  const y = c => H-pad.b - (c/maxC)*(H-pad.t-pad.b);
+  const tooltip = document.createElement('div'); tooltip.className='tooltip'; wrap.style.position='relative';
+
+  counts.forEach((c,i)=>{
+    const x0 = pad.l + i*bw;
+    const r = svgEl('rect',{x:x0+1.5, y:y(c), width:bw-3, height:H-pad.b-y(c), fill:COLOR_ORANGE, opacity:0.85, style:'cursor:pointer;'});
+    r.addEventListener('mouseenter', ()=>{
+      tooltip.innerHTML = `<strong>${bins[i]}–${bins[i+1]} dias</strong><br>${c} imóveis`;
+      tooltip.style.left = (x0+bw/2)+'px'; tooltip.style.top = y(c)+'px'; tooltip.style.opacity=1;
+      r.setAttribute('opacity',1);
+    });
+    r.addEventListener('mouseleave', ()=>{ tooltip.style.opacity=0; r.setAttribute('opacity',0.85); });
+    svg.appendChild(r);
+  });
+  const range = bins[bins.length-1]-bins[0];
+  const xp50 = pad.l + ((a.p50-bins[0])/range)*(W-pad.l-pad.r);
+  svg.appendChild(svgEl('line',{x1:xp50,x2:xp50,y1:pad.t,y2:H-pad.b, stroke:COLOR_INK,'stroke-width':1.5,'stroke-dasharray':'3,3'}));
+  const lbl = svgEl('text',{x:xp50, y:pad.t-8, 'text-anchor':'middle', 'font-size':10.5, fill:COLOR_INK,'font-family':'Montserrat','font-weight':700});
+  lbl.textContent = `P50 = ${a.p50}d`;
+  svg.appendChild(lbl);
+  wrap.innerHTML=''; wrap.appendChild(svg); wrap.appendChild(tooltip);
+}
+
+drawEvolucao(); drawBoxplot(); drawAbsorcao();
+window.addEventListener('resize', ()=>{ drawEvolucao(); drawBoxplot(); drawAbsorcao(); });
+
+const subjectRow = {preco:1590000, area:216.84, lote:504, q:3, s:3, dias:null, m2:7333, diferenciais:['Piscina','Solar']};
+function rowHTML(r, isSubject){
+  const diffs = r.diferenciais.map(d=>`<span class="difftag">${d}</span>`).join('') || '<span style="color:var(--gray)">—</span>';
+  const diasTxt = r.dias===null ? '—' : r.dias;
+  return `<tr class="${isSubject?'subject':''}">
+    <td>${fmtR(r.preco)}</td>
+    <td>${r.area.toFixed(0)} m²</td>
+    <td>${r.lote.toFixed(0)} m²</td>
+    <td>${r.q}q / ${r.s}s</td>
+    <td>${diasTxt}</td>
+    <td>${fmtR(r.m2)}/m²</td>
+    <td>${diffs}</td>
+  </tr>`;
+}
+const tbody = document.getElementById('paresBody');
+const allRows = [...DATA.pares, subjectRow].sort((a,b)=>a.m2-b.m2);
+tbody.innerHTML = allRows.map(r=> rowHTML(r, r===subjectRow)).join('');
+</script>
+
+</body>
+</html>
